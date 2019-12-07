@@ -2,7 +2,7 @@ require 'fileutils'
 dirname = gets
 dirname.strip!
 FileUtils.mkdir_p(dirname)
-outfile = File.open(dirname + "/" + dirname + "_failed_words.txt", "a+")
+outfile = File.open(dirname + "/__" + dirname + "_failed_words.txt", "a+")
 File.open("list.txt", "r") do |file|
   file.each_line { |line|
     line.strip!
