@@ -1,6 +1,6 @@
 # 思路：
-# => A.遍历目录对象
-# => B.获取目录下的文件名称File对象
+# => A.遍历目录
+# => B.获取文件名
 # => C.截取新的文件命名
 # => D.检查重名问题
 # => E.重命名
@@ -11,12 +11,12 @@ require 'fileutils'
 puts "#####################    begin   #######################\r\n"
 puts "########################################################\r\n"
 DIR_PHOTOS = "./Lv5L1"
-i = 0 #定义变量记录所有的符合规定格式的文件数量
-j = 0 #记录被处理过的文件数量
+i = 0 #文件数量
+j = 0 #处理的的文件数量
 
 Find.find(DIR_PHOTOS) do |filename|
   path = Pathname.new(filename)
-  extname = path.extname      # 文件后缀名
+  extname = path.extname      # 后缀名
   #puts filename.to_str
   #puts path.basename
   #puts extname
@@ -36,7 +36,8 @@ Find.find(DIR_PHOTOS) do |filename|
         new_name=m.split(/&/)[0]
       end
       new_name = DIR_PHOTOS+"/"+new_name+extname
-      if (FileTest.exist?(new_name))
+      #如果文件存在则不重命名防止覆盖
+      if FileTest.exist?(new_name)
         puts new_name +"is already existed"
       else
         j = j + 1
