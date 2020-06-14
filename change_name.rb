@@ -2,7 +2,8 @@
 # => A.遍历目录对象
 # => B.获取目录下的文件名称File对象
 # => C.截取新的文件命名
-# => D.重命名
+# => D.检查重名问题
+# => E.重命名
 require 'find'
 require 'pathname'
 require 'fileutils'
@@ -25,7 +26,7 @@ Find.find(DIR_PHOTOS) do |filename|
     primary_name = path.basename        # 文件名
     name = filename.to_str
     puts "------------- #{i} old name :  #{primary_name}"
-    if name.include?("(2)")
+    if name.include?("(")
       puts "not deal " + name
     else
       m = name.split(/&pq=/)[-1]
@@ -35,9 +36,13 @@ Find.find(DIR_PHOTOS) do |filename|
         new_name=m.split(/&/)[0]
       end
       new_name = DIR_PHOTOS+"/"+new_name+extname
+      if (FileTest.exist?(new_name))
+        puts new_name +"is already existed"
+      else
         j = j + 1
         File.rename(filename,new_name)
         puts "rename :  #{new_name} \n"
+      end
     end
   rescue Exception => e
     puts e
